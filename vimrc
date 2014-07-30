@@ -6,3 +6,4 @@ colorscheme railscasts
 
 " Show line numbers
 set number
+set mouse=a
