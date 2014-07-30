@@ -78,3 +78,7 @@ export PATH="/usr/lib64/qt-3.3/bin:/usr/libexec/lightdm:/usr/local/bin:/usr/bin:
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Go Setup
+export GOPATH=$HOME/projects/go
+export PATH=$GOPATH/bin:$PATH
