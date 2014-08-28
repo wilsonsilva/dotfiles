@@ -1,3 +1,7 @@
 [user]
 	name = wilsonsilva
 	email = wilson.dsigns@gmail.com
+[core]
+	autocrlf = input
+[color]
+	ui = true
