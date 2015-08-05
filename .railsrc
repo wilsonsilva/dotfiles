@@ -1,0 +1,6 @@
+-B # Skip Bundle
+-T # Skip Test-Unit
+-d postgresql # Use postgres
+--skip-keeps # Skip
+--skip-turbolinks # 
+-m ~/.rails/application_templates/angular.rb
