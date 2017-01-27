@@ -45,7 +45,7 @@ export UPDATE_ZSH_DAYS=1
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(bundler git wd)
+plugins=(bundler git wd ssh-agent nvm sublime)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -68,7 +68,7 @@ export PATH="/usr/lib64/qt-3.3/bin:/usr/libexec/lightdm:/usr/local/bin:/usr/bin:
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH="~/.ssh/github/id_rsa"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -90,3 +90,15 @@ export PATH=$GOPATH/bin:$PATH
 # jenv setup
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
+
+# android sdk setup
+export ANDROID_HOME=/usr/local/opt/android-sdk
+
+export NVM_DIR="/Users/wilson/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+# Fix missing ifconfig, ping, etc
+export PATH="/sbin:$PATH"
+
+# Load Github keys
+eval "$(if [[ `ssh-add -l` != *id_rsa* ]]; then; ssh-add ~/.ssh/**/*id_rsa; fi)"
