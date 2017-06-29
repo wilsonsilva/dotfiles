@@ -1,7 +1,13 @@
 [user]
-	name = wilsonsilva
+	name = Wilson Silva
 	email = wilson.dsigns@gmail.com
 [core]
+	excludesfile = ~/.gitignore
 	autocrlf = input
-[color]
-	ui = true
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+[push]
+	default = current
