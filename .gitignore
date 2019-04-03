@@ -1,2 +1,5 @@
-.idea # JetBrains IDE's configuration folders
+ # JetBrains IDE's configuration folders
+.idea
+
+# Mac's folder metadata files
 .DS_Store
