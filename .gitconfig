@@ -1,13 +1,15 @@
-[user]
-	name = Wilson Silva
-	email = wilson.dsigns@gmail.com
-[core]
-	excludesfile = ~/.gitignore
-	autocrlf = input
 [filter "lfs"]
-	required = true
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
+	required = true
+[user]
+	name = Wilson Silva
+	email = wilson.dsigns@gmail.com
 [push]
 	default = current
+[core]
+	excludesfile = ~/.gitignore
+	autocrlf = input
+	# Set Sublime Text as the text editor.
+	editor = subl -w -n
