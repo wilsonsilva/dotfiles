@@ -1,3 +1,7 @@
+
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
+
 # Integrate with iterm2
 source ~/.iterm2_shell_integration.zsh
 
@@ -65,7 +69,7 @@ COMPLETION_WAITING_DOTS="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(asdf bundler docker docker-compose heroku git rake ssh-agent wd zsh-autosuggestions)
+plugins=(asdf bundler docker docker-compose heroku git rake ssh-agent wd zsh-autosuggestions rust cargo)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -113,3 +117,58 @@ export ERL_AFLAGS="-kernel shell_history enabled"
 # added by travis gem
 [ -f /Users/wilson/.travis/travis.sh ] && source /Users/wilson/.travis/travis.sh
 alias lzd='lazydocker'
+
+# flutter
+export PATH="$PATH:/Users/wilson/development/flutter/bin"
+export ANDROID_HOME=/Users/$USER/Library/Android/sdk
+export PATH=${PATH}:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
+
+# pipenv
+export PATH="$PATH:/Users/wilson/.local/bin"
+
+######## golang stuff
+# https://gist.github.com/rubencaro/5ce32fb30bbfa70e7db6be14cf42a35c/2d804bb26e82cdcf9a43d7527e0cd74ae5ffd3c6
+
+# This goes up from current folder looking for a folder
+# that looks like a golang workspace root (has a 'src' subfolder, by now).
+# Then echoes its path and returns 0.
+# Returns -1 if does not find such a folder.
+function detect_go_workspace_root {
+  path="$PWD"
+  while [[ $path != / ]];
+  do
+    src="$path/src"
+    if [ -d "$src" ]; then
+      echo "$path" && return 0
+    fi
+    path="$(realpath -s "$path"/..)"  # ignoring symlinks
+  done
+  return -1
+}
+
+# This will setup the Go workspace to the detected root path.
+# It will complain if not detected.
+# Then it will cd into folder pointed by $GOPATH/.letsgo_srcpath
+function letsgo {
+  root=$(detect_go_workspace_root)
+  if [ $? -ne 0 ]; then
+    echo "Could not find Go Workspace Root for $PWD" && return -1
+  fi
+  export GOPATH=$root
+  export GOBIN=$root/bin
+  export PATH=$GOBIN:$PATH
+  export GOROOT=$(go env GOROOT)
+  srcpath="$root/.letsgo_srcpath"
+  [ -L "$srcpath" ] && cd "$(readlink $srcpath)"
+}
+
+alias wasm_init="source /Users/wilson/projects/github/emsdk/emsdk_env.sh"
+
+# Cargo
+export PATH="$PATH:/Users/wilson/.cargo/bin"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/wilson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/wilson/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/wilson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/wilson/google-cloud-sdk/completion.zsh.inc'; fi
