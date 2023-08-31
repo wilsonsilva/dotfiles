@@ -1,8 +1,0 @@
-asset 'angular'
-asset 'angular-route'
-asset 'angular-resource'
-asset 'angular-mocks'
-asset 'angular-flash'
-asset 'angularjs-rails-resource'
-asset 'jasmine-expect'
-# vim: ft=ruby

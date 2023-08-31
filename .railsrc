@@ -1,6 +1,17 @@
--B # Skip Bundle
--T # Skip Test-Unit
--d postgresql # Use postgres
---skip-keeps # Skip
---skip-turbolinks # 
--m ~/.rails/application_templates/angular.rb
+--api \
+--database=postgresql \
+--skip-keeps \
+--skip-action-mailer \
+--skip-action-mailbox \
+--skip-action-text \
+--skip-active-job \
+--skip-active-storage \
+--skip-action-cable \
+--skip-asset-pipeline \
+--skip-javascript \
+--skip-hotwire \
+--skip-jbuilder \
+--skip-test \
+--skip-system-test \
+--skip-bootsnap \
+--template=~/.rails/templates/api.rb
