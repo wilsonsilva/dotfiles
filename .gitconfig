@@ -6,10 +6,15 @@
 [user]
 	name = Wilson Silva
 	email = wilson.dsigns@gmail.com
+	signingkey = E23F82C8 # feature: auto-sign commits
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg2 # feature: auto-sign commits
+[commit]
+	gpgsign = true # feature: auto-sign commits
+[core]
+	excludesFile = ~/.gitignore
+	editor = subl -n -w # feature: set sublime text as the default editor
+[init]
+	defaultBranch = main
 [push]
 	default = current
-[core]
-	excludesfile = ~/.gitignore
-	autocrlf = input
-	# Set Sublime Text as the text editor.
-	editor = subl -w -n
