@@ -1,10 +1,5 @@
-
-autoload -U +X bashcompinit && bashcompinit
-autoload -U +X compinit && compinit
-
-# Integrate with iterm2
-source ~/.iterm2_shell_integration.zsh
-
+# Fig pre block. Keep at the top of this file.
+[[ -f "$HOME/.fig/shell/zshrc.pre.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.pre.zsh"
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -14,12 +9,12 @@ export ZSH="/Users/wilson/.oh-my-zsh"
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="bureau"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
+# a theme from this variable instead of looking in $ZSH/themes/
 # If set to an empty array, this variable will have no effect.
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
@@ -33,8 +28,14 @@ ZSH_THEME="bureau"
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
 
+# Uncomment the following line to automatically update without prompting.
+# DISABLE_UPDATE_PROMPT="true"
+
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
+
+# Uncomment the following line if pasting URLs and other text is messed up.
+# DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -46,7 +47,7 @@ ZSH_THEME="bureau"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
+# COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -65,11 +66,13 @@ COMPLETION_WAITING_DOTS="true"
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
 # Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Standard plugins can be found in $ZSH/plugins/
+# Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(asdf bundler docker docker-compose heroku git rake ssh-agent wd zsh-autosuggestions rust cargo)
+plugins=(asdf bundler docker docker-compose flutter heroku git rake ssh-agent wd zsh-autosuggestions)
+
+zstyle :omz:plugins:ssh-agent identities id_github
 
 source $ZSH/oh-my-zsh.sh
 
@@ -90,9 +93,6 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# ssh
-# export SSH_KEY_PATH="~/.ssh/rsa_id"
-
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -108,67 +108,57 @@ export EDITOR='subl'
 # Easy access to zsh configuration
 alias zshconfig="subl ~/.zshrc"
 
-# Load SSH keys
-eval "$(if [[ `ssh-add -l` != *id_rsa* ]]; then; ssh-add ~/.ssh/**/*id_rsa; fi)"
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
 
-# Enable Erlang/Elixir's shell history
-export ERL_AFLAGS="-kernel shell_history enabled"
+ASDF_DIR="$(brew --prefix asdf)/libexec"
+. "$ASDF_DIR/asdf.sh"
 
-# added by travis gem
-[ -f /Users/wilson/.travis/travis.sh ] && source /Users/wilson/.travis/travis.sh
-alias lzd='lazydocker'
-
-# flutter
-export PATH="$PATH:/Users/wilson/development/flutter/bin"
-export ANDROID_HOME=/Users/$USER/Library/Android/sdk
-export PATH=${PATH}:$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
-
-# pipenv
-export PATH="$PATH:/Users/wilson/.local/bin"
-
-######## golang stuff
-# https://gist.github.com/rubencaro/5ce32fb30bbfa70e7db6be14cf42a35c/2d804bb26e82cdcf9a43d7527e0cd74ae5ffd3c6
-
-# This goes up from current folder looking for a folder
-# that looks like a golang workspace root (has a 'src' subfolder, by now).
-# Then echoes its path and returns 0.
-# Returns -1 if does not find such a folder.
-function detect_go_workspace_root {
-  path="$PWD"
-  while [[ $path != / ]];
-  do
-    src="$path/src"
-    if [ -d "$src" ]; then
-      echo "$path" && return 0
-    fi
-    path="$(realpath -s "$path"/..)"  # ignoring symlinks
-  done
-  return -1
-}
-
-# This will setup the Go workspace to the detected root path.
-# It will complain if not detected.
-# Then it will cd into folder pointed by $GOPATH/.letsgo_srcpath
-function letsgo {
-  root=$(detect_go_workspace_root)
-  if [ $? -ne 0 ]; then
-    echo "Could not find Go Workspace Root for $PWD" && return -1
-  fi
-  export GOPATH=$root
-  export GOBIN=$root/bin
-  export PATH=$GOBIN:$PATH
-  export GOROOT=$(go env GOROOT)
-  srcpath="$root/.letsgo_srcpath"
-  [ -L "$srcpath" ] && cd "$(readlink $srcpath)"
-}
-
-alias wasm_init="source /Users/wilson/projects/github/emsdk/emsdk_env.sh"
-
-# Cargo
-export PATH="$PATH:/Users/wilson/.cargo/bin"
+export PATH="/usr/local/opt/openjdk/bin:$PATH"
 
 # The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/wilson/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/wilson/google-cloud-sdk/path.zsh.inc'; fi
+if [ -f '/Users/wilson/Downloads/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/wilson/Downloads/google-cloud-sdk/path.zsh.inc'; fi
 
 # The next line enables shell command completion for gcloud.
-if [ -f '/Users/wilson/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/wilson/google-cloud-sdk/completion.zsh.inc'; fi
+if [ -f '/Users/wilson/Downloads/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/wilson/Downloads/google-cloud-sdk/completion.zsh.inc'; fi
+
+# Android Platform Tools
+export ANDROID_HOME=~/Library/Android/sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
+
+# ASDF Flutter
+export FLUTTER_ROOT="$(asdf where flutter)"
+
+# added by travis gem
+[ ! -s /Users/wilson/.travis/travis.sh ] || source /Users/wilson/.travis/travis.sh
+
+bindkey "\e\e[D" backward-word
+bindkey "\e\e[C" forward-word
+
+export GPG_TTY=$(tty)
+
+export GOPATH=~/projects/go
+
+# Submit go solution
+alias exs='exercism submit ${$(basename $PWD.go)//-/_}'
+
+# Fig post block. Keep at the bottom of this file.
+[[ -f "$HOME/.fig/shell/zshrc.post.zsh" ]] && builtin source "$HOME/.fig/shell/zshrc.post.zsh"
+
+# Warning: Pub installs executables into $HOME/.pub-cache/bin, which is not on your path.
+# You can fix that by adding this to your shell's config file (.bashrc, .bash_profile, etc.):
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+alias fladd="flutter pub add"
+
+# Serverpod development
+export SERVERPOD_HOME=/Users/wilson/projects/flutter/serverpod
+
+## [Completion] 
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/wilson/.dart-cli-completion/zsh-config.zsh ]] && . /Users/wilson/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
+
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
