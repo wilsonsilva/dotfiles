@@ -1,5 +1,17 @@
  # JetBrains IDE's configuration folders
-.idea
+.idea/
 
 # Mac's folder metadata files
 .DS_Store
+
+# Nodejs modules
+node_modules
+
+# Python junk
+
+# -- Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# -- Installer logs
+pip-log.txt

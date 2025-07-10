@@ -8,13 +8,57 @@
 	email = wilson.dsigns@gmail.com
 	signingkey = E23F82C8 # feature: auto-sign commits
 [gpg]
-	program = /usr/local/MacGPG2/bin/gpg2 # feature: auto-sign commits
-[commit]
-	gpgsign = true # feature: auto-sign commits
-[core]
-	excludesFile = ~/.gitignore
-	editor = subl -n -w # feature: set sublime text as the default editor
+	program = /usr/local/MacGPG2/bin/gpg2
+
+# clearly makes git better
+
+[column]
+	ui = auto
+[branch]
+	sort = -committerdate
+[tag]
+	sort = version:refname
 [init]
 	defaultBranch = main
+[diff]
+algorithm = histogram
+	colorMoved = plain
+	mnemonicPrefix = true
+	renames = true
 [push]
-	default = current
+	default = simple
+	autoSetupRemote = true
+	followTags = true
+[fetch]
+	prune = true
+	pruneTags = true
+	all = true
+
+# why the hell not?
+
+[help]
+	autocorrect = prompt
+[commit]
+	verbose = true
+	gpgsign = true
+[rerere]
+	enabled = true
+	autoupdate = true
+[core]
+	excludesfile = /Users/wilson/.gitignore_global
+	editor = zed -n -w
+[rebase]
+	autoSquash = true
+	autoStash = true
+	updateRefs = true
+
+# a matter of taste (uncomment if you dare)
+
+[core]
+	# fsmonitor = true
+	# untrackedCache = true
+[merge]
+	# (just 'diff3' if git version < 2.3)
+	# conflictstyle = zdiff3
+[pull]
+	# rebase = true
